@@ -1,0 +1,100 @@
+[
+  {
+    "title": "Product Modificado 2",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P5",
+    "stock": 10,
+    "id": 541686
+  },
+  {
+    "title": "Product desde post",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P64",
+    "stock": 10,
+    "id": 400035
+  },
+  {
+    "title": "Product  post2",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P444",
+    "stock": 10,
+    "id": 667612
+  },
+  {
+    "title": "Product  post2",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P4244",
+    "stock": 10,
+    "id": 913192
+  },
+  {
+    "title": "Product  post2",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P423244",
+    "stock": 10,
+    "id": 971242
+  },
+  {
+    "title": "Product  post2",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P84",
+    "stock": 10,
+    "id": 436047
+  },
+  {
+    "title": "Product  post2",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P3454",
+    "stock": 330,
+    "id": 599371
+  },
+  {
+    "title": "Product  post2",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P34354",
+    "stock": 330,
+    "id": 174878
+  },
+  {
+    "title": "Product  post2",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P34666354",
+    "stock": 330,
+    "id": 611302
+  },
+  {
+    "title": "Product  post2",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P354",
+    "stock": 330,
+    "id": 721999
+  },
+  {
+    "title": "Producto Actualizado",
+    "description": "Descripcion modificada",
+    "price": 100,
+    "thumbnail": "http://website.com/product1.jpg",
+    "code": "P554",
+    "stock": 10
+  }
+]
