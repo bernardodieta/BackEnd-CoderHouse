@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="{{ style }}">
+</head>
+
+<body>
+    <h3>Productos Mostrados JavaScript y SOCKET.IO se actualiza solo al agregar o borrar un producto.</h3>
+    <div class="container-body">
+
+        <div class="productListContainer" id="productList2">
+            <div class="title-containers">
+                <ul class="productListUL">
+                    <li class="product-li">
+                        <div class="productDiv">Product</div>
+                        <div class="productDiv">Price</div>
+                        <div class="productDiv">Stock</div>
+                        <div class="productDiv">Description</div>
+                        <div class="productDiv">Product Code</div>
+                        <div class="productDiv">Category</div>
+                        <div class="productDiv">Action</div>
+                       
+                    </li>
+                </ul>
+                <ul id="productListUL" class="productListUL">
+
+                </ul>
+            </div>
+
+        </div>
+        <form id="product-form" onsubmit=getData() class="form-addproduct">
+            <label>Nombre del Producto:</label>
+            <input id="product-title" type="text" class="inputt" placeholder="Ingrese un producto" />
+            <label>Descripcion del Producto:</label>
+            <input id="product-descr" type="text" class="inputt" placeholder="Ingrese una descripcion" />
+            <label>Precio del Producto:</label>
+            <input id="product-price" type="number" class="inputt" placeholder="Ingrese un precio" />
+            <label>Stock del Producto:</label>
+            <input id="product-stock" type="number" class="inputt" placeholder="Ingrese un Stock" />
+            <label>Ingrese el codigo de Producto:</label>
+            <input id="product-pcode" type="text" class="inputt" placeholder="Ingrese la categoria del Producto" />
+            <label>Ingrese la categoria del Producto:</label>
+            <input id="product-category" type="text" class="inputt" placeholder="Ingrese la categoria del Producto" />
+            <label>Ingrese la categoria del Producto:</label>
+            <input id="product-file" type="file" placeholder="Ingrese la categoria del Producto" />
+            <button type="submit" class="btn-addproduct">Agregar</button>
+        </form>
+    </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
+
+</html>
