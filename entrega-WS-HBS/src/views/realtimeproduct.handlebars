@@ -30,7 +30,7 @@
             </div>
 
         </div>
-        <form id="product-form" onsubmit=getData() class="form-addproduct">
+        <form id="product-form" onsubmit=getData(event) class="form-addproduct">
             <label>Nombre del Producto:</label>
             <input id="product-title" type="text" class="inputt" placeholder="Ingrese un producto" />
             <label>Descripcion del Producto:</label>
@@ -43,8 +43,8 @@
             <input id="product-pcode" type="text" class="inputt" placeholder="Ingrese la categoria del Producto" />
             <label>Ingrese la categoria del Producto:</label>
             <input id="product-category" type="text" class="inputt" placeholder="Ingrese la categoria del Producto" />
-            <label>Ingrese la categoria del Producto:</label>
-            <input id="product-file" type="file" placeholder="Ingrese la categoria del Producto" />
+            <label id="error-label" style="color: red;"></label>
+            
             <button type="submit" class="btn-addproduct">Agregar</button>
         </form>
     </div>

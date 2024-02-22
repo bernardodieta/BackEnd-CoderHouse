@@ -9,7 +9,6 @@ function getData(e) {
     const stock = document.getElementById('product-stock').value;
     const code = document.getElementById('product-pcode').value;
     const category = document.getElementById('product-category').value;
-    const thumbnails = document.getElementById('product-file').value;
 
     product = {
         title: title,
@@ -18,22 +17,30 @@ function getData(e) {
         price: price,
         status: true,
         stock: stock,
-        category: category,
-        thumbnails: thumbnails
+        category: category
     };
 
-    socket.emit('newProduct', product);
+    socket.emit('newProduct', product, (error) => {
+        if (error) {           
+            const errorLabel = document.getElementById('error-label');
+            errorLabel.textContent = error;
+        } else {
+            const errorLabel = document.getElementById('error-label');
+            errorLabel.textContent = ""; 
+        }
+    });
 }
 
 
 socket.on('connect', function () {
     console.log('Connected to server');
+    socket.on('productList', function (productList) {
+        console.log('Received productList:', productList);
+        renderProductList(productList);
+    });
 });
 
-socket.on('productList', function (productList) {
-    console.log('Received productList:', productList);
-    renderProductList(productList);
-});
+
 
 function renderProductList(productList) {
     var productListContainer = document.querySelector('#productListUL');
@@ -72,7 +79,7 @@ function renderProductList(productList) {
         productDiv.textContent = product.category;
         listItem.appendChild(productDiv);
 
-      
+
         var deleteButton = document.createElement('button');
         deleteButton.textContent = 'Borrar';
         deleteButton.className = 'btn-delete';

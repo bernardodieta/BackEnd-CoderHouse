@@ -7,7 +7,6 @@ class ProductManager {
     productDirName;
     filesystem;
     constructor() {
-        this.products = new Array();
         this.filesystem = fs;
         this.productDirName = './src/data/';
         this.productFileName = this.productDirName + '/productData.json'
@@ -39,35 +38,33 @@ class ProductManager {
     }
 
     addProduct = async (product) => {
-        //console.log(product)
-        const { title, description, code, price, status, stock, category, thumbnails } = product
-        const newProduct = new Product(title, description, code, price, status, stock, category, thumbnails)
+        const { title, description, code, price, status, stock, category } = product;
+        const newProduct = new Product(title, description, code, price, status, stock, category);
         await this.filesystem.promises.mkdir(this.productDirName, { recursive: true });
-        const allData = await this.getAllProducts()
-        const result = await this.saveProduct(allData, newProduct)
-        if (!result) {
-            return { success: false, message: "Error al guardar el producto." }
+        const allData = await this.getAllProducts();
+        const result = await this.saveProduct(allData, newProduct);
+        if (!result.success) {
+            return { success: false, message: result.message };
         }
-        return { success: true, message: "Producto agregado Correctamente" }
+        return { success: true, message: "Producto agregado correctamente." };
     }
 
     saveProduct = async (allData, newProduct) => {
         try {
             const getCode = allData.find((p) => p.code === newProduct.code);
             if (getCode) {
-                return { success: false, message: "Producto Duplicado:" };
+                return { success: false, message: "Producto duplicado." };
             }
             if (newProduct.id === undefined) {
                 let newId;
                 do {
                     newId = Math.floor(Math.random() * 1000000);
-                } while (allData.find((p) => p.id === newId))
-                newProduct.id = newId
+                } while (allData.find((p) => p.id === newId));
+                newProduct.id = newId;
             }
-            this.products.push(...allData, newProduct)
-            await this.filesystem.promises.writeFile(this.productFileName, JSON.stringify(this.products, null, 2, '\t'))
-            return newProduct, { success: true, message: 'Producto guardado correctamente.' };
-
+            allData.push(newProduct);
+            await this.filesystem.promises.writeFile(this.productFileName, JSON.stringify(allData, null, 2, '\t'));
+            return { success: true, message: 'Producto guardado correctamente.' };
         } catch (error) {
             return { success: false, message: `Error al guardar el producto: ${error.message}` };
         }

@@ -1,49 +1,76 @@
 [
   {
-    "title": "Nuevo Producto Actualizado 2",
-    "description": "Laptop gamer, de 16 pulgadas, integra un intel I7, pantalla tactil, SSD: 1TB",
-    "code": "L54",
-    "price": 3340,
-    "status": false,
-    "stock": 22380,
-    "category": "lasdops",
-    "thumbnail": "img123",
-    "id": 1
-  },
-  {
-    "title": "Nuevo Producto Actualizado",
-    "description": "Laptop gamer2, de 16 pulgadas, integra un intel I7, pantalla tactil, SSD: 1TB",
-    "code": "L3",
-    "price": 3440,
+    "title": "Mouse Gamer Razer ",
+    "description": "Mouse Gamer Marca Razer, 18000dpi, alámbrico.",
+    "code": "asdasdwe",
+    "price": "123",
     "status": true,
-    "stock": 2280,
-    "category": "laptops",
-    "thumbnails": {
-      "1": "img1",
-      "2": "img2"
-    },
-    "id": 2
+    "stock": "123",
+    "category": "asdasd",
+    "thumbnails": "C:\\fakepath\\IMG_20240220_135936.jpg",
+    "id": 113909
   },
   {
     "title": "Mouse Gamer Razer ",
     "description": "Mouse Gamer Marca Razer, 18000dpi, alámbrico.",
-    "code": "M12",
-    "price": "2500",
+    "code": "asdasdwe",
+    "price": "123",
     "status": true,
-    "stock": "5",
-    "category": "Periféricos ",
-    "thumbnails": "",
-    "id": 437702
+    "stock": "123",
+    "category": "asdasd",
+    "thumbnails": "C:\\fakepath\\IMG_20240220_135936.jpg",
+    "id": 113909
   },
   {
     "title": "Mouse Gamer Razer ",
     "description": "Mouse Gamer Marca Razer, 18000dpi, alámbrico.",
-    "code": "M122",
-    "price": "2500",
+    "code": "asdasdwesd",
+    "price": "123",
     "status": true,
-    "stock": "5",
+    "stock": "123",
+    "category": "asdasdasd",
+    "thumbnails": "C:\\fakepath\\IMG_20240220_135936.jpg",
+    "id": 205788
+  },
+  {
+    "title": "Laptop",
+    "description": "aasdasd",
+    "code": "s2323",
+    "price": "12",
+    "status": true,
+    "stock": "23",
     "category": "Periféricos ",
-    "thumbnails": "",
-    "id": 882354
+    "thumbnails": "C:\\fakepath\\IMG_20240220_135936.jpg",
+    "id": 5945
+  },
+  {
+    "title": "Probando",
+    "description": "qwe",
+    "code": "asdsaww33",
+    "price": "123",
+    "status": true,
+    "stock": "123",
+    "category": "asdasd",
+    "id": 450874
+  },
+  {
+    "title": "Mouse Gamer Razer ",
+    "description": "qwe",
+    "code": "asdsaww33assd2",
+    "price": "123123",
+    "status": true,
+    "stock": "123",
+    "category": "asdasd",
+    "id": 837566
+  },
+  {
+    "title": "Mouse Gamer Razer 2311111",
+    "description": "qwe",
+    "code": "hyhyhy",
+    "price": "123123",
+    "status": true,
+    "stock": "123",
+    "category": "asdasd",
+    "id": 671134
   }
 ]
