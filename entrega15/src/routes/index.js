@@ -1,0 +1,1 @@
+export { productsRoutes } from './products.routerNew.js';
