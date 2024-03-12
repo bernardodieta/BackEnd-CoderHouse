@@ -18,13 +18,19 @@ export default class CartService {
     }
 
     addProductToCart = async (_cid, _pid) => {
-        console.log('addProduct')
         const addProduct = await cartModel.updateOne(
             { _id: _cid },
             { $push: { products: { product: _pid } } },
             { new: true }
         )
-        
         return addProduct
+    }
+    deleteProductFromCart = async (_cid, _pid) => {
+        const deleteProduct = await cartModel.deleteOne(
+            { _id: _cid },
+            { products: { product: _pid } },
+            { new: true }
+        )
+        return deleteProduct
     }
 }

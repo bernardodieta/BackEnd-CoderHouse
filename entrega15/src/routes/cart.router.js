@@ -42,6 +42,18 @@ cartRoutes.put("/:id/products/:pid", async (req, res) => {
 
     }
 })
+cartRoutes.delete("/:id/products/:pid", async (req, res) => {
+    try {
+        const { id, pid } = req.params
+        const regProduct = await cartService.deleteProductFromCart(id, pid)
+        console.log(req.params)
+        res.send({ regProduct })
+
+    } catch (error) {
+        res.status(500).send({ error: error, message: "No se pudo agregar el producto al Carrito." });
+
+    }
+})
 
 
 

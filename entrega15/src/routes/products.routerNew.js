@@ -42,8 +42,8 @@ productsRoutes.post('/', uploader.fields([{ name: 'img1', maxCount: 1 }, { name:
     try {
         const { title, shortdescription, description, stock, price, pcode, category, img1, img2 } = req.body
         const newProduct = new Product(title, shortdescription, description, stock, price, pcode, category, img1, img2)
-        newProduct.img1 = req.files['img1'] ? 'up/' + req.files['img1'][0].filename : null;
-        newProduct.img2 = req.files['img2'] ? 'up/' + req.files['img2'][0].filename : null;
+        //newProduct.img1 = req.files['img1'] ? 'up/' + req.files['img1'][0].filename : null;
+       // newProduct.img2 = req.files['img2'] ? 'up/' + req.files['img2'][0].filename : null;
         newProduct.fecharegistro = moment().format()
         const product = await productManager.addNewProduct(newProduct)
         return ApiResponse.success(res, product)
