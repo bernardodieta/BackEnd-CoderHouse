@@ -1,0 +1,34 @@
+<div style="display:flex;width:40%;margin:0 auto;flex-direction:column;font-family:'Roboto',san-serif">
+    <h1>Enío de mensajes directos.</h1>
+    <h2>Conectado como: <span id="myName"></span>
+    </h2>
+    <div style="display: flex; flex-direction:column;background-color:#f1f1f1;width:100%;">
+        <div class="formulario" style="width: 100%;border-radius: 0.4rem;">
+            <div style="display: flex; flex-direction:column; gap:10px;padding:20px 10px">
+
+                <label for="email">Ingrese su email:</label>
+                <input id="email" type="email" placeholder="coderhouse@coder.com"
+                    style="padding: 10px 5px; border-radius: 0.4rem; border-style: none;">
+
+                <label for="mensaje">Ingrese su mensaje:</label>
+                <textarea id="mensaje"
+                    style="height: 150px; padding: 10px 5px; border-radius: 0.4rem; border-style: none;"> </textarea>
+
+                <div id="buttonEnviar">
+                    <button
+                        style="color:white; width: 100%; padding: 10px 0; text-align:center;background-color:rgb(19, 65, 122);border-style: none;border-radius: 0.4rem;">Enviar</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="message-container" style="">
+            <p id="messageLogs"></p>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/messages.js"></script>

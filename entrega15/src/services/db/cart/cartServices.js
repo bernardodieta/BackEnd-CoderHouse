@@ -18,9 +18,10 @@ export default class CartService {
     }
 
     addProductToCart = async (_cid, _pid) => {
+        const fecha = moment().format()
         const addProduct = await cartModel.updateOne(
             { _id: _cid },
-            { $push: { products: { product: _pid } } },
+            { $push: { products: { product: _pid, fechanueva: fecha } } },
             { new: true }
         )
         return addProduct
