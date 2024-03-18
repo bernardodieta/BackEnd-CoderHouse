@@ -68,15 +68,12 @@ export default class CartService {
     }
     async deleteCart(_cid) {
         try {
-            // Buscar el carrito por su ID
             const cart = await cartModel.findById(_cid);
     
-            // Verificar si el carrito existe
             if (!cart) {
                 throw new NotFoundError('El carrito especificado no existe.');
             }
     
-            // Eliminar el carrito de la base de datos
             await cartModel.findByIdAndDelete(_cid);
     
             return { message: 'Carrito eliminado correctamente.' };
