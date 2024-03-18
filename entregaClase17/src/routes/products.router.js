@@ -8,10 +8,7 @@ import { productModel } from '../services/db/models/product.model.js';
 import moment from 'moment'
 
 const productsRoutes = express.Router();
-mongoose.connect('mongodb://localhost:27017/ecommerce')
-if (mongoose) {
-    console.log('conectado')
-}
+
 const productManager = new ProductManager()
 
 productsRoutes.get('/', async (req, res) => {

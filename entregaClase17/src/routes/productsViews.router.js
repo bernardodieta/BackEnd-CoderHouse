@@ -5,10 +5,7 @@ import { productModel } from "../services/db/models/product.model.js";
 
 const viewsProductsRouter = express.Router();
 
-mongoose.connect('mongodb://localhost:27017/ecommerce')
-if (mongoose) {
-    console.log('conectado')
-}
+
 
 viewsProductsRouter.get('/', async (req, res) => {
     const { limit = 10, page = 1, sort, query } = req.query;

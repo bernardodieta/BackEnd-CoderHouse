@@ -4,10 +4,6 @@ import { UserManager } from '../services/db/users/UserService.js'
 import { Users } from '../services/db/users/Users-Class.js'
 import { ApiResponse } from '../utils/apiResponse.js'
 
-mongoose.connect('mongodb://localhost:27017/ecommerce')
-if (mongoose) {
-    console.log('conectado')
-}
 
 const userManager = new UserManager()
 const userRoutes = express.Router()

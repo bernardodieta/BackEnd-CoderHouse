@@ -66,17 +66,22 @@ export default class CartService {
             throw new BadRequestError('No se pudo obtener el carrito.', error);
         }
     }
-    async deleteAllProductsFromCart(_cid) {
+    async deleteCart(_cid) {
         try {
+            // Buscar el carrito por su ID
             const cart = await cartModel.findById(_cid);
+    
+            // Verificar si el carrito existe
             if (!cart) {
                 throw new NotFoundError('El carrito especificado no existe.');
             }
-            cart.products = [];
-            await cart.save();
-            return cart;
+    
+            // Eliminar el carrito de la base de datos
+            await cartModel.findByIdAndDelete(_cid);
+    
+            return { message: 'Carrito eliminado correctamente.' };
         } catch (error) {
-            throw new BadRequestError('No se pudo eliminar todos los productos del carrito.', error);
+            throw new BadRequestError('No se pudo eliminar el carrito.', error);
         }
     }
 

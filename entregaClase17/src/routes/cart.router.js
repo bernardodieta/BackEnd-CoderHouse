@@ -57,7 +57,7 @@ cartRoutes.put("/:cid/products/:pid", async (req, res) => {
 cartRoutes.delete("/:cid", async (req, res) => {
     try {
         const { cid } = req.params;
-        const result = await cartService.deleteAllProductsFromCart(cid);
+        const result = await cartService.deleteCart(cid);
         return ApiResponse.success(res, result);
     } catch (error) {
         return ApiResponse.error(res, error);
