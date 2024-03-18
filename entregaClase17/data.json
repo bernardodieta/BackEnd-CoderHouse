@@ -1,0 +1,167 @@
+[
+    {
+        "title": "Teclado Razer v2",
+        "shortdescription": "Teclado Razer v2",
+        "description": "El Teclado Razer v2 es una opción ideal para gamers que buscan precisión y durabilidad. ¡Consigue el tuyo ahora!",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr1",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Razer Teclado v2",
+        "shortdescription": "Razer Teclado v2",
+        "description": "Disfruta de la experiencia única que ofrece el Razer Teclado v2 con su diseño ergonómico y retroiluminación personalizable.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr2",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Teclado Gaming Razer",
+        "shortdescription": "Teclado Gaming Razer",
+        "description": "Eleva tu experiencia de juego con el Teclado Gaming Razer, diseñado para ofrecer un rendimiento superior en cada partida.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr3",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Teclado Mecánico Razer",
+        "shortdescription": "Teclado Mecánico Razer",
+        "description": "Experimenta la sensación incomparable de cada pulsación con el Teclado Mecánico Razer, diseñado para durar y rendir al máximo.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr4",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Teclado Razer Ultimate",
+        "shortdescription": "Teclado Razer Ultimate",
+        "description": "El Teclado Razer Ultimate es la elección de los profesionales del gaming, con su respuesta rápida y su diseño robusto.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr5",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Razer Chroma Teclado",
+        "shortdescription": "Razer Chroma Teclado",
+        "description": "Sumérgete en un mundo de colores y personalización con el Razer Chroma Teclado, que ofrece una iluminación RGB espectacular.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr6",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Teclado Razer BlackWidow",
+        "shortdescription": "Teclado Razer BlackWidow",
+        "description": "El Teclado Razer BlackWidow combina estilo y rendimiento, ofreciendo una experiencia de escritura excepcional.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr7",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Teclado Razer Mercury",
+        "shortdescription": "Teclado Razer Mercury",
+        "description": "Añade un toque de elegancia a tu configuración con el Teclado Razer Mercury, que ofrece un diseño blanco y minimalista.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr8",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Teclado Razer Stealth",
+        "shortdescription": "Teclado Razer Stealth",
+        "description": "Con un diseño silencioso y una respuesta táctil precisa, el Teclado Razer Stealth es perfecto para sesiones de juego prolongadas.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr9",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Razer Teclado Ornata",
+        "shortdescription": "Razer Teclado Ornata",
+        "description": "Disfruta de lo mejor de ambos mundos con el Razer Teclado Ornata, que combina la suavidad de un teclado de membrana con la respuesta táctil de uno mecánico.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr10",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Teclado Razer Cynosa Pro",
+        "shortdescription": "Teclado Razer Cynosa Pro",
+        "description": "Haz cada pulsación con confianza con el Teclado Razer Cynosa Pro, diseñado para resistir incluso las sesiones de juego más intensas.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr11",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Razer Teclado Huntsman Mini",
+        "shortdescription": "Razer Teclado Huntsman Mini",
+        "description": "Experimenta la próxima evolución en teclados gaming con el Razer Teclado Huntsman Mini y su diseño compacto y portátil.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr12",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Teclado Razer BlackWidow Elite",
+        "shortdescription": "Teclado Razer BlackWidow Elite",
+        "description": "El Teclado Razer BlackWidow Elite ofrece una experiencia de escritura superior con sus interruptores mecánicos y su diseño robusto.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr13",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Teclado Razer Ornata Chroma",
+        "shortdescription": "Teclado Razer Ornata Chroma",
+        "description": "Disfruta de una experiencia de escritura única con el Teclado Razer Ornata Chroma y su combinación de teclas mecánicas y de membrana.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr14",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    },
+    {
+        "title": "Razer Teclado Tartarus Pro",
+        "shortdescription": "Razer Teclado Tartarus Pro",
+        "description": "Domina cualquier juego con el Razer Teclado Tartarus Pro y su diseño ergonómico y teclas programables.",
+        "stock": "51",
+        "price": "5000",
+        "pcode": "Tcr15",
+        "category": "electronic",
+        "img1": "img1",
+        "img2": "img2"
+    }
+]
