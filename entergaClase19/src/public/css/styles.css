@@ -76,7 +76,11 @@ h5 {
     align-items: center;
     justify-content: center;
 }
-
+.description-text{
+    display: flex;    
+    max-height: 80px;
+    overflow: hidden;
+}
 
 .product {
     display: flex;

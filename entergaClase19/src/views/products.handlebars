@@ -15,7 +15,7 @@
     {{#each products}}
     <div class="product">
         <h2>{{this.title}}</h2>
-        <p>{{this.description}}</p>
+        <p class="description-text">{{this.description}}</p>
         <p>Precio: ${{this.price}}</p>
         <a href="/products/{{this._id}}" class="vermas">Ver mas detalles...</a>
         <form id="addToCartForm_{{this._id}}" method="PUT" class="formi"> <!-- Agregar el ID del producto al ID del formulario -->
