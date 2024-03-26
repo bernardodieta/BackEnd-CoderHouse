@@ -6,14 +6,13 @@ const sessionRouterView = Router()
 sessionRouterView.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {
 })
 sessionRouterView.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/github/error' }), async (req, res) => {
-    const user = req.user
-    console.log(req.user)
+    const user = req.user   
 
     req.session.user = {
-        name: `${user.name} ${user.lastName}`,
-        email: user.email        
+        name: user.name,
+        email: user.email       
     }
-    req.session.admin = true;
+   
     res.redirect("/users")
 })
 
@@ -31,7 +30,7 @@ sessionRouterView.post("/login", passport.authenticate('login', { failureRedirec
     req.session.user = {
         name: `${user.name} ${user.lastName}`,
         email: user.email,
-        username: user.username
+        
     }
     res.send({ status: "success", payload: req.session.user, message: "¡Primer logueo realizado! :)" });
 });

@@ -17,20 +17,32 @@ const initializePassport = () => {
             console.log("Profile obtenido del usuario:");
             console.log(profile);
             try {
-                const user = await userModel.findOne({ email: profile._json.email });
+                //const user = await userModel.findOne({ email: profile._json.email }); AL NO RECIBIR ESTE DATO NO PUEDO VERIFICAR CON LA BASE DE DATOS.
+                const user = await userModel.findOne({ email: 'bernardodieta@gmail.com' });//SI LO HARDCODE TODO FUNCIONA Y EL PERFIL ME CARGA LOS DATOS
                 console.log("Usuario encontrado para login:");
-                console.log(user);
+                console.log(profile._json.name);
+                console.log(profile._json.email);//NUNCA RECIBO ESTE DATO ME LO MUESTRA COMO NULL EN LOS DATOS QUE ME DEVUELVE GITHUB
 
                 if (!user) {
                     console.warn("User doesn't exists with username: " + profile._json.email);
 
+                    
+                    // let newUser = {
+                    //     name: profile._json.name,
+                    //     lastName: profile._json.name,
+                    //     email: profile._json.email,
+                    //     password: '',                        
+                    //     loggedBy: 'GitHub'
+                    // }
+
                     let newUser = {
-                        name: profile._json.name,
-                        lastName: '',                        
-                        email: profile._json.email,
-                        password: '',
+                        name: 'Hardcode',
+                        lastName: 'Hardcode',
+                        email: 'bernardodieta@gmail.com',
+                        password: 'asd',                        
                         loggedBy: 'GitHub'
                     }
+                    console.log(newUser)
                     const result = await userModel.create(newUser)
                     return done(null, result)
                 } else {
@@ -64,7 +76,6 @@ const initializePassport = () => {
 
                 const result = await userModel.create(user);
 
-                // TODO OK
                 return done(null, result)
             } catch (error) {
                 return done("Error registrando el usuario: " + error)
@@ -113,13 +124,5 @@ const initializePassport = () => {
 
 };
 
-
-
-
-// La serialización de Passport se refiere al proceso de convertir el objeto de usuario de Passport en una cadena que puede ser almacenada o transmitida de manera segura. Esta cadena se utiliza típicamente para mantener la sesión de usuario entre las solicitudes del cliente y el servidor. 
-
-// La serialización es importante para persistir la información de autenticación del usuario de una manera que sea eficiente y segura
-
-// estas funciones permiten a Passport.js manejar la información del usuario durante el proceso de autenticación, serializando y deserializando los usuarios para almacenar y recuperar información de la sesión. Estas funciones son esenciales cuando se implementa la autenticación de usuarios en una aplicación Node.js utilizando Passport.js.
 
 export default initializePassport;
