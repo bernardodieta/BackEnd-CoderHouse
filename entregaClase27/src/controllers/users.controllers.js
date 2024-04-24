@@ -71,10 +71,8 @@ export const userLoginController = async (email, password, res) => {
 
 export const registerUserController = async (req, res) => {
     const { first_name, last_name, age, email, password, role } = req.body
-    role = role.toLowerCase()
-    if (role !== 'admin') {
-        return { message: 'Rol no permitido, se creo tu usuario con un Rol de user por defecto' }
-    }
+    console.log('llego')
+
     const exists = await userService.userByEmail(email)
     if (exists) {
         return ({ status: 'error', message: 'El usuario ya existe.' })

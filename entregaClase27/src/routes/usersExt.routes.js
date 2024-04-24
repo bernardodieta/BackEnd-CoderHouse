@@ -1,5 +1,5 @@
 import CustomRouter from './customs.routes.js';
-import {  userLoginController, registerUserController, userById } from '../controllers/users.controllers.js'
+import { userLoginController, registerUserController, userById } from '../controllers/users.controllers.js'
 
 export class UsersExtRouter extends CustomRouter {
 
@@ -33,6 +33,7 @@ export class UsersExtRouter extends CustomRouter {
                 if (result.status === "error") {
                     res.sendClientError({ message: "El usuario ya existe" })
                 }
+               
                 res.sendSuccess({ message: "Usuario Creado con éxito", results: result })
             } catch (error) {
                 return error
