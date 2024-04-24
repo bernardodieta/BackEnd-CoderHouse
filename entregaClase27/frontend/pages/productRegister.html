@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/productRegister.css">
+    <title>Formulario de Registro de Producto</title>
+</head>
+<body>    
+    <form method="POST" id="registerForm" name="registerForm" enctype="multipart/form-data">
+        <label for="title">Título:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="description">Descripción:</label>
+        <textarea id="description" name="description" required></textarea><br><br>
+
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" name="stock" required><br><br>
+
+        <label for="price">Precio:</label>
+        <input type="text" id="price" name="price" required><br><br>
+
+        <label for="pcode">Código de Producto (único):</label>
+        <input type="text" id="pcode" name="pcode" required><br><br>
+
+        <label for="category">Categoría:</label>
+        <input type="text" id="category" name="category" required><br><br>
+
+        <label for="img1">Imagen 1:</label>
+        <input type="file" id="imageInput" name="img" accept="image/*" multiple>
+
+        <button type="submit">Registrar Producto</button>
+    </form>
+    <script src="../js/productRegister.js"></script>
+</body>
+</html>

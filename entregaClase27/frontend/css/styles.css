@@ -1,0 +1,134 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; /* Ajusta la fuente a tu preferencia */
+}
+form {
+    background-color: white; /* Fondo blanco para el formulario */
+    padding: 20px; /* Espacio dentro del formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra sutil */
+    max-width: 600px; /* Máximo ancho del formulario */
+    margin: auto; /* Centra el formulario horizontalmente */
+}
+
+h1 {
+    color: #333; /* Color de texto para el título */
+}
+
+label {
+    display: block; /* Hace que la etiqueta sea bloque */
+    margin-bottom: 5px; /* Margen debajo de la etiqueta */
+    color: #666; /* Color del texto de la etiqueta */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+textarea {
+    width: 100%; /* Ancho completo dentro de su contenedor */
+    padding: 10px 0px; /* Espaciado interno para fácil escritura */
+    margin-bottom: 20px; /* Espacio debajo de cada input */
+    border: 1px solid #ccc; /* Borde sutil */
+    border-radius: 4px; /* Bordes ligeramente redondeados */
+}
+
+textarea {
+    resize: vertical; /* Permite al usuario ajustar el tamaño verticalmente */
+    min-height: 150px;
+}
+
+button {
+    background-color: #5c67f2; /* Color de fondo del botón */
+    color: white; /* Texto blanco */
+    padding: 10px 20px; /* Relleno dentro del botón */
+    border: none; /* Sin bordes */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+    font-size: 16px; /* Tamaño de fuente grande */
+}
+
+button:hover {
+    background-color: #4a54e1; /* Oscurece el botón al pasar sobre él */
+}
+
+/* Estilos generales para el cuerpo y enlaces para evitar espacios no deseados */
+
+
+/* Estilización del contenedor de la barra de navegación */
+.navBar-container {
+    background-color: #333; /* Color de fondo oscuro para la navbar */
+    color: white; /* Texto de color blanco */
+    width: 100%; /* Asegura que ocupe todo el ancho de la pantalla */
+    position: fixed; /* Posición fija */
+    top: 0; /* Alineado al borde superior */
+    left: 0; /* Alineado al borde izquierdo */
+    z-index: 1000; /* Asegura que la navbar esté sobre otros contenidos */
+}
+
+/* Estilos para la lista y enlaces dentro de la navbar */
+.navBar-container ul {
+    list-style-type: none; /* Remueve los estilos de lista */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    overflow: hidden; /* Oculta los elementos desbordados */
+    background-color: #333; /* Color de fondo */
+}
+
+.navBar-container a {
+    display: block; /* Hace que los enlaces llenen el espacio de los <li> */
+    color: white; /* Color del texto */
+    text-align: center; /* Alineación del texto */
+    padding: 14px 16px; /* Espaciado alrededor del texto */
+    text-decoration: none; /* Remueve el subrayado de los enlaces */
+}
+
+/* Estilos para los elementos <li> dentro de la navbar */
+.navBar-container li {
+    float: left; /* Alinea los elementos de la lista horizontalmente */
+}
+
+/* Estilos para los enlaces al pasar el mouse */
+.navBar-container a:hover {
+    background-color: #ddd; /* Cambia el color de fondo al pasar el mouse */
+    color: black; /* Cambia el color del texto al pasar el mouse */
+}
+
+/* Estilo para el contenido que sigue a la navbar, para evitar que se oculte debajo */
+body {
+    padding-top: 50px; /* Ajusta este valor según la altura de tu navbar */
+}
+.products-container{
+    margin: 0 auto;
+    display: flex;
+    max-width: 1000px;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+.product {
+    max-width: 150px;
+    background-color: white; /* Fondo blanco para la tarjeta */
+    border: 1px solid #ddd; /* Borde sutil */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    margin: 10px 0; /* Margen arriba y abajo */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra sutil */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Animación suave */
+}
+
+.product:hover {
+    transform: translateY(-5px); /* Eleva la tarjeta al pasar el mouse */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Sombra más pronunciada al pasar el mouse */
+}
+
+.product h2 {
+    color: #333; /* Color oscuro para el título */
+    margin-top: 0; /* Sin margen superior para mantener todo alineado */
+}
+
+.product p {
+    color: #666; /* Color gris para el texto */
+    margin: 5px 0; /* Margen ligero para los párrafos */
+}
