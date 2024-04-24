@@ -1,4 +1,5 @@
 import cartModel from './models/carts.models.js';
+import mongoose from 'mongoose';
 
 export default class CartServices {
     constructor() {
@@ -10,6 +11,14 @@ export default class CartServices {
             const userId = userIdObject.user;
             const productId = productDetails.items.product;
             const quantity = productDetails.items.quantity;
+            const isValidObjectId = (id) => {
+                return mongoose.Types.ObjectId.isValid(id);
+            }
+            
+            if (!isValidObjectId(productId)) {
+                console.error('ID del producto inválido:', productId);
+                return;
+            }
             let cart = await cartModel.findOne({ user: userId });
 
             if (!cart) {
@@ -20,7 +29,7 @@ export default class CartServices {
             if (itemIndex > -1) {
                 cart.items[itemIndex].quantity += quantity;
             } else {
-                cart.items.push({ product: quantity });
+                cart.items.push({ product: productId, quantity: quantity });
             }
             await cart.save();
             return cart;
@@ -60,6 +69,14 @@ export default class CartServices {
 
     getCartByUserId = async (userId) => {
         try {
+            const isValidObjectId = (userId) => {
+                return mongoose.Types.ObjectId.isValid(userId);
+            }
+            
+            if (!isValidObjectId(userId)) {
+                console.error('ID del producto inválido:', userId);
+                return;
+            }
             console.log("Usuario que me llego de:", userId);
             let cart = await cartModel.findOne({ user: userId }).populate('items.product');
             if (!cart) {
