@@ -1,10 +1,4 @@
-ENV
-SERVER_PORT=8080
-MONGO_URL="mongodb+srv://bdieta:bigote926@ecommerce.iwt0osu.mongodb.net/Ecoommerce"
-ADMIN_NAME=adminCoder
-ADMIN_PASSWORD=ADMIN_PASSWORD
-GMAIL_ACCOUNT = bernardodieta@gmail.com
-GMAIL_APP_PASSWD = kickfzrpzuyskfpe
+
 
 ENDPOINTS PROBADOS:
 ### PARA USUARIOS
