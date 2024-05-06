@@ -8,8 +8,9 @@ export class CartRouter extends CustomRouter {
             const { productId, quantity } = req.body;
             try {
                 const cart = await addToCart(userId, productId, quantity);
-                res.sendSuccess(cart);
+               res.sendSuccess(cart);
             } catch (error) {
+                console.log(error)
                 res.sendClientError(error);
             }
         });
@@ -18,7 +19,7 @@ export class CartRouter extends CustomRouter {
             const { userId } = req.params;
             try {
                 const cart = await getCartUser(userId);
-                res.sendSuccess({message:'Usuario solicitado:', cart});
+                res.sendSuccess({ message: 'Usuario solicitado:', cart });
             } catch (error) {
                 res.sendClientError(error);
             }

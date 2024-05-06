@@ -11,7 +11,7 @@ export default class CartRepository {
     }
 
     addProductToCart = async (userIdObject, productDetails) => {
-        return this.dao.saveProduct(userIdObject, productDetails)
+        return this.dao.addProductToCart(userIdObject, productDetails)
     }
     getCartByUserId = async (userId) => {
         return this.dao.getCartByUserId(userId)
