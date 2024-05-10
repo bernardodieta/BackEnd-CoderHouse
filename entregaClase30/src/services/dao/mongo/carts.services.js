@@ -1,6 +1,6 @@
 import cartModel from './models/carts.models.js';
 import mongoose from 'mongoose';
-import { ObjectId } from 'mongoose'; 
+import { ObjectId } from 'mongoose';
 
 export default class CartServicesDao {
     constructor() {
@@ -8,19 +8,11 @@ export default class CartServicesDao {
 
     addProductToCart = async (userIdObject, productDetails) => {
         try {
-            console.log('ProductDetail:' + productDetails)
+            //console.log('asdasd',userIdObject);
             const userId = userIdObject.user;
             const productId = productDetails.items.product;
             const quantity = productDetails.items.quantity;
-            console.log(quantity)
-            const isValidObjectId = (id) => {
-                return mongoose.Types.ObjectId.isValid(id);
-            }
 
-            if (!isValidObjectId(productId)) {
-                console.error('ID del producto inválido:', productId);
-                return;
-            }
             let cart = await cartModel.findOne({ user: userId });
 
             if (!cart) {
@@ -29,14 +21,14 @@ export default class CartServicesDao {
             const itemIndex = cart.items.findIndex(item => item.product.toString() === productId);
 
             if (itemIndex > -1) {
-                console.log('cantidad que me llega', quantity)
-                console.log('cantidad que me tiene Cart antes de', cart.items[itemIndex].quantity)
+                // console.log('cantidad que me llega', quantity)
+                // console.log('cantidad que me tiene Cart antes de', cart.items[itemIndex].quantity)
                 cart.items[itemIndex].quantity += quantity;
-                console.log('cantidad que me tiene Cart despues de', cart.items[itemIndex].quantity)
+                // console.log('cantidad que me tiene Cart despues de', cart.items[itemIndex].quantity)
 
             } else {
                 cart.items.push({ product: productId, quantity: quantity });
-            }            
+            }
 
             await cart.save();
             return cart;
@@ -45,13 +37,13 @@ export default class CartServicesDao {
             return error
         }
     }
-    removeProduct = async (userId, productId) => {
+    removeProduct = async (_id, productId) => {
         try {
-            if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(productId)) {
+            if (!mongoose.isValidObjectId(_id) || !mongoose.isValidObjectId(productId)) {
                 throw new Error("Invalid ID format");
             }
             const result = await cartModel.updateOne(
-                { user: userId },
+                { user: _id },
                 { $pull: { items: { product: productId } } }
             );
             return result;
@@ -86,6 +78,19 @@ export default class CartServicesDao {
         } catch (error) {
             console.error('Ocurrio un error actualizando la cantidad en el carrito:', error);
             throw error;
+        }
+    }
+    createEmptyCart = async (userId) => {
+        try {
+            const newCart = await cartModel.create({
+                user: userId,
+                items: []
+            });
+
+            return newCart;
+        } catch (error) {
+            console.error('Error al crear un carrito vacío:', error);
+            return error;
         }
     }
 

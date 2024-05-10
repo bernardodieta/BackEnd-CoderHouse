@@ -6,47 +6,28 @@ export class ProductsExtRouter extends CustomRouter {
     init() {
         this.get('/', ['PUBLIC'], async (req, res) => {
             const result = await getListProducts(req)
-            res.sendSuccess(result)
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
 
         })
-        this.post('/favoritos/:userId/:productId', ['USER'], async (req, res) => {
+        this.post('/favoritos/:productId', ['USER'], async (req, res) => {
             const result = await toggleFavorite(req, res)
-            if (result) {
-                res.sendSuccess({ message: 'Producto agregado a favoritos', result })
-            } else {
-                res.sendClientError(result)
-            }
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
         });
 
         this.post('/register', ['ADMIN'], upload.array('img', 4), async (req, res) => {
             const result = await saveProductController(req);
-            res.sendSuccess({
-                message: 'Producto Creado',
-                data: result
-            });
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
         });
 
-        this.get('/:id', ['PUBLIC'], async (req, res) => {
-            try {
-                const result = await getProductById(req)
-                res.sendSuccess({
-                    message: 'Producto Encontrado:',
-                    data: result
-                });
-            } catch (error) {
-                res.sendClientError(result)
-            }
+        this.get('/:id?', ['PUBLIC'], async (req, res) => {
+            const result = await getProductById(req, res)
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
         })
 
         this.put('/edit/:productId', ['USER'], async (req, res) => {
-            try {
-                const result = await updateProductById(req, res)
-                res.sendSuccess({ message: 'Producto Actualizado Correctamente', result })
-            } catch (error) {
-                res.sendClientError(error)
-            }
+            const result = await updateProductById(req, res)
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
         })
-
 
     }
 }

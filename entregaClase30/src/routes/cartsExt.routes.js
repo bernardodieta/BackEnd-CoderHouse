@@ -3,67 +3,30 @@ import { addToCart, getCartUser, removeProductFromCart, purchase, remProduct } f
 
 export class CartRouter extends CustomRouter {
     init() {
-        this.post('/:userId/add', ['PUBLIC'], async (req, res) => {
-            const { userId } = req.params;
-            const { productId, quantity } = req.body;
-            try {
-                const cart = await addToCart(userId, productId, quantity);
-               res.sendSuccess(cart);
-            } catch (error) {
-                console.log(error)
-                res.sendClientError(error);
-            }
+        this.post('/add', ['USER'], async (req, res) => {
+            const cart = await addToCart(req, res);
+            cart.status === 'error' ? res.sendClientError(cart.message) : res.sendSuccess(cart)
         });
 
-        this.get('/:userId?', ['PUBLIC'], async (req, res) => {
-            const { userId } = req.params;
-            try {
-                const cart = await getCartUser(userId);
-                res.sendSuccess({ message: 'Usuario solicitado:', cart });
-            } catch (error) {
-                res.sendClientError(error);
-            }
+        this.get('/', ['USER'], async (req, res) => {
+            const cart = await getCartUser(req, res);
+            cart.status === 'error' ? res.sendClientError(cart.message) : res.sendSuccess(cart)
         });
 
-        this.put('/remove/:userId/:productId', ['PUBLIC'], async (req, res) => {
-            try {
-                const { userId, productId } = req.params
-                console.log(userId, productId)
-                const result = await remProduct(userId, productId)
-                res.status(200).json(result)
-            } catch (error) {
-                res.status(500).json({ error: error.message });
-            }
-
+        this.put('/remove/:productId', ['USER'], async (req, res) => {
+            const result = await remProduct(req, res)
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
         })
 
-        this.delete('/:userId/:productId/:quantity', ['PUBLIC'], async (req, res) => {
-            const { userId, productId, quantity } = req.params;
-            try {
-                const quantityToRemove = quantity
-                if (isNaN(quantityToRemove) || quantityToRemove < 1) {
-                    res.status(400).json({ message: "Invalid quantity. It must be a positive number." });
-                    return;
-                }
-                const result = await removeProductFromCart(userId, productId, quantityToRemove);
-                res.status(200).json(result);
-            } catch (error) {
-                res.status(500).json({ error: error.message });
-            }
+        this.delete('/:productId/:quantity', ['USER'], async (req, res) => {
+            const result = await removeProductFromCart(req, res);
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
+
         });
 
-        this.post('/:userId/purchase', ['PUBLIC'], async (req, res) => {
-            const { userId } = req.params;
-            try {
-                const result = await purchase(userId, req, res)
-
-                return res.status(200).json(userId)
-
-            } catch (error) {
-                return res.status(400).error
-
-            }
-
+        this.post('/:userId/purchase', ['USER'], async (req, res) => {
+            const result = await purchase(req, res)
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
         })
 
     }

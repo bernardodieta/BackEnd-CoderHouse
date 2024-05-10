@@ -61,20 +61,19 @@ export const getListProducts = async (req, res) => {
             nextLink
         };
 
-        return result;
+        return ({ status: 'Success', result });
     } catch (error) {
-        console.error('Error fetching product list:', error);
-        return (error);
+        return ({ status: 'error', message: 'Error al obtener lista de productos', result });
     }
 }
 
 export const toggleFavorite = async (req, res) => {
-    const { productId, userId } = req.params;
-
+    const { _id } = req.user
+    const { productId } = req.params;
     try {
-        const user = await userService.userById(userId);
+        const user = await userService.userById(_id);
         const isFavorite = user.favProducts.some(product => product.productId.toString() === productId);
-        const filter = { _id: userId };
+        const filter = { _id: _id };
         let update;
 
         if (isFavorite) {
@@ -92,7 +91,7 @@ export const toggleFavorite = async (req, res) => {
         }
         const result = await userService.updateInfo(filter, update);
         result.password = ''
-        return result;
+        return ({ status: 'Success', message: 'Producto agregado a favoritos' });
     } catch (error) {
         return ({ status: 'error', message: 'Error al actualizar favoritos', error });
     }
@@ -110,37 +109,43 @@ export const saveProductController = async (req) => {
 
     const exists = await productService.getProductByPcode(pcode);
     if (exists) {
-        return { error: 'El producto ya existe', payload: exists };
+        return ({ status: 'error', message: 'El Producto ya existe' });
     }
     const product = new Product(title, description, stock, price, pcode, category, moment().format(), img);
 
     try {
         const newProduct = await productService.saveProduct(product);
-        return { newProduct };
+        return ({ status: 'Success', message: 'Producto guardado Correctamente', newProduct });
     } catch (error) {
-        console.error('Error saving product:', error);
-        return { error: 'Error al guardar el producto' };
+        return ({ status: 'error', message: 'Error al guardar el producto', error });
     }
 }
 
-export const getProductById = async (req) => {
-    const { id } = req.params
-    console.log(id)
-    const product = await productService.getProductById(id)
-    if (!product) {
-        return { error: 'No existe un producto con ese ID' }
+export const getProductById = async (req, res) => {
+    try {
+        const { id } = req.params
+        console.log(id)
+        const product = await productService.getProductById(id)
+
+        if (!product) {
+            return ({ status: 'error', message: 'No existe un producto con ese id' });
+        }
+        return ({ status: 'Success', message: 'Producto guardado Correctamente', product });
+
+    } catch (error) {
+        return ({ status: 'error', message: 'Ocurrio un error al buscar el producto', error });
+
     }
-    return product
+
+
 }
 export const updateProductById = async (req, res) => {
     try {
         const { productId } = req.params
         const { product } = req.body
         const prod = await productService.updateProduct(productId, product)
-        return prod
+        return ({ status: 'Success', message: 'Producto actualizado Correctamente', prod });
     } catch (error) {
-        return error
+        return ({ status: 'error', message: 'Ocurrio un error al actualizar el producto', error });
     }
-
-
 }

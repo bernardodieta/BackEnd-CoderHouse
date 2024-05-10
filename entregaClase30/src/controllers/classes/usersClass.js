@@ -8,7 +8,7 @@ export class UsersClass {
         this.email = email;
         this.password = createHash(password);
         this.role = role ? role : 'user'
-        this.cart = [];
+        
         this.fecha_reg = moment().format();
     }
 }

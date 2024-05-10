@@ -4,15 +4,14 @@ import { saveAddressController, getAddressById } from '../controllers/address.co
 export class AddressRoutes extends CustomRouter {
     init() {
 
-        this.post('/save/:userId', ['PUBLIC'], async (req, res) => {
-            console.log('paso')
+        this.post('/save/:userId', ['USER'], async (req, res) => {
             const result = await saveAddressController(req, res)
-            res.sendSuccess({ message: 'Direccion Guardada', result })
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
         })
 
-        this.get('/:userId', ['PUBLIC'], async (req, res) => {
+        this.get('/', ['USER'], async (req, res) => {
             const result = await getAddressById(req, res)
-            res.sendSuccess(result)
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
         })
     }
 

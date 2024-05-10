@@ -11,14 +11,14 @@ export default class UserServiceDao {
         return result;
     }
 
-    userById = async (id) => {
+    userById = async (_id) => {
         try {
             const isValidObjectId = mongoose.Types.ObjectId.isValid;
-            if (!isValidObjectId(id)) {
-                console.error('ID del usuario inválido:', id);
+            if (!isValidObjectId(_id)) {
+                console.error('ID del usuario inválido:', _id);
                 return;
             }
-            const result = await userModel.findById(id)
+            const result = await userModel.findById(_id)
             const userBack = new UserDto(result)
             return userBack;
         } catch (error) {
@@ -26,14 +26,15 @@ export default class UserServiceDao {
         }
     };
     userByEmail = async (email) => {
+        console.log(email);
         const result = await userModel.findOne(email)
         const userBack = new UserDto(result)
         return userBack;
     }
 
     updateInfo = async (userId, userUpdate) => {
-        const options = { new: true };
-        const result = await userModel.findByIdAndUpdate(userId, userUpdate, options);
+        const options = { new: true };        
+        const result = await userModel.findByIdAndUpdate(userId, userUpdate, options);        
         return result;
     };
 

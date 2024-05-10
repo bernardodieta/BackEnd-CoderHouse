@@ -1,59 +1,76 @@
 import { sendEmailConfirm } from "./email.controllers.js";
 import { userService, productService, cartService, ordersService } from '../services/services.js'
+import mongoose from 'mongoose';
 
-export const addToCart = async (userId, productId, quantity) => {
-    console.log(userId, productId, quantity)
+
+export const addToCart = async (req, res) => {
     try {
+        const { _id } = req.user;
+        //console.log(_id)
+        const { productId, quantity } = req.body;
+       
         const cart = await cartService.addProductToCart(
-            { user: userId },
+            { user: _id },
             { items: { product: productId, quantity: quantity } },
             { new: true, upsert: true }
         );
-        return cart;
+        return ({ status: 'Success', message: 'Producto Agregado Correctamente', cart });
     } catch (error) {
-        throw new Error('Error al agregar producto: ' + error.message);
+        console.log(error)
+        return ({ status: 'error', message: 'Error al agregar el producto al carrito', error })
     }
 };
-export const removeProductFromCart = async (userId, productId, quantityToRemove) => {
+export const removeProductFromCart = async (req, res) => {
     try {
-        const result = await cartService.removeProductFromCart(userId, productId, quantityToRemove);
-        return result;
+        const { _id } = req.user
+        const { productId, quantity } = req.params;
+        const quantityToRemove = quantity
+        if (isNaN(quantityToRemove) || quantityToRemove < 1) {
+            return ({ message: "Cantidad invalida. Debe ser un numero positivo." });
+
+        }
+        const result = await cartService.removeProductFromCart(_id, productId, quantityToRemove);
+        return ({ status: 'Success', message: 'Producto eliminado del carrito correctamente', result });
     } catch (error) {
-        throw new Error('Error al quitar producto: ' + error.message);
+        return ({ status: 'error', message: 'Error al quitar cantidad de el producto del carrito', error })
     }
 }
 
-export const remProduct = async (userId, productId) => {
+export const remProduct = async (req, res) => {
     try {
-        const result = await cartService.removeProduct(userId, productId);
+        const { _id } = req.user
+        const { productId } = req.params
+        const result = await cartService.removeProduct(_id, productId);
         if (result.modifiedCount === 0) {
-            throw new Error("No se encontró el producto o el usuario no tiene ese producto en su carrito");
+            return ({ status: 'error', message: "No se encontró el producto o el usuario no tiene ese producto en su carrito" });
         }
-        return result;
+        return ({ status: 'Success', message: 'Producto eliminado del carrito correctamente', result });
     } catch (error) {
-        throw new Error('Error al quitar producto: ' + error.message);
+        return ({ status: 'error', message: 'Error al quitar el producto del carrito', error })
     }
 }
 
-export const getCartUser = async (userId) => {
+export const getCartUser = async (req, res) => {
     try {
-        if (!userId) {
-            return { message: 'el usuario no tiene un carrito' }
+        const { _id } = req.user
+        if (!_id) {
+            return ({ status: 'error', message: 'el usuario no tiene un carrito' })
         }
-        const cart = await cartService.getCartByUserId(userId);
-        return cart;
+        const cart = await cartService.getCartByUserId(_id);
+        return ({ status: 'Success', message: 'Carrito de usuario:', cart });
     } catch (error) {
-        throw new Error('Error al intenar obtener el carrito: ' + error.message);
+        return ({ status: 'error', message: 'Error al intentar obtener el carrito', error })
     }
 }
 
-export const purchase = async (userId, req, res) => {
+export const purchase = async (req, res) => {
     let totalPriceforOneProduct = 0;
     let productosConStock = [];
     let productosSinStock = [];
     try {
-        const cart = await cartService.getCartByUserId(userId);
-        const user = await userService.userById(userId);
+        const { _id } = req.user;
+        const cart = await cartService.getCartByUserId(_id);
+        const user = await userService.userById(_id);
 
         for (const item of cart.items) {
             const product = await productService.getProductById(item.product._id);
@@ -85,14 +102,14 @@ export const purchase = async (userId, req, res) => {
         for (const item of productosConStock) {
             const productToUpdate = await productService.getProductById(item.product._id);
             const result = await productService.updateProductStock(item.product, productToUpdate.stock - item.quantity);
-            const deleteFromCart = await remProduct(userId, item.product._id)
+            const deleteFromCart = await remProduct(_id, item.product._id)
         }
 
         const order = await ordersService.saveOrder(newOrder)
         sendEmailConfirm(newOrder);
-        return order
+        return ({ status: 'Success', message: 'Orden de compra generada correctamente', order })
     } catch (error) {
-        return error
+        return ({ status: 'error', message: 'Error al intentar generar la orden de compra', error })
     }
 };
 

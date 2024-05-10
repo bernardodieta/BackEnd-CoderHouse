@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 import multer from "multer";
+import { getCartUser } from "./controllers/carts.controllers.js";
 
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -33,6 +34,8 @@ export const authToken = (req, res, next) => {
     if (error)
       return res.status(403).send({ error: "Token invalido, no autorizado!" });
     req.user = credentials.user;
+    const cart = getCartUser(user.userId)
+    req.user.cart = cart
     next();
   });
 };
@@ -44,6 +47,7 @@ export const passportCall = (strategy) => {
 
       if (user) {
         req.user = user;
+      
       }
       next();
     })(req, res, next);

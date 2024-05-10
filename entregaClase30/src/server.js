@@ -1,4 +1,4 @@
-import express, { urlencoded } from 'express'
+import express from 'express'
 import config from './config/config.js';
 import cookieParser from "cookie-parser";
 import passport from "passport";
@@ -41,6 +41,7 @@ server.use('/api/products', productsExtRouter.getRouter())
 server.use('/api/cart', cartRouter.getRouter())
 server.use('/api/orders', orderRoutes.getRouter())
 server.use('/api/address/', addressRoutes.getRouter())
+
 const SERVER_PORT = config.port;
 const MONGO_URL = config.mongoUrl;
 console.log('asd', MONGO_URL)

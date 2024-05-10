@@ -31,15 +31,12 @@ export const sendEmail = (req, res) => {
     try {
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log(error)
-                res.status(400).send({ message: "error", payload: error })
+                return ({ status: 'Ocurrio un error al intentar enviar el email', message: "error", payload: error })
             }
-            console.log('Mensaje enviado: $s', info.messageId)
-            res.send({ message: 'Success', payload: info })
+            return ({ status: 'Success', message: 'Mensaje Enviado: $s', info })
         })
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: error, message: "No se pudo enviar el email desde:" + config.gmailAccount });
+        return ({ status: 'error', message: "No se pudo enviar el email desde:" + config.gmailAccount, error });
     }
 }
 
@@ -47,9 +44,9 @@ export const sendEmail = (req, res) => {
 
 
 export const sendEmailConfirm = (newOrder, req, res) => {
-    console.log('Productos en newOrder',newOrder.products)
-    for(const item of newOrder.products){
-        console.log('Items',item.product)
+    console.log('Productos en newOrder', newOrder.products)
+    for (const item of newOrder.products) {
+        console.log('Items', item.product)
     }
     const structure = `
         <div><h2>Su compra se realizo con éxito</h2></div>
@@ -60,7 +57,7 @@ export const sendEmailConfirm = (newOrder, req, res) => {
         `
 
     const { email } = newOrder
-   // console.log(email)
+    // console.log(email)
     const mailConfirmOptions = {
         from: "Ecommerce Shop - " + config.gmailAccount,
         to: newOrder.email,
@@ -72,14 +69,11 @@ export const sendEmailConfirm = (newOrder, req, res) => {
     try {
         transporter.sendMail(mailConfirmOptions, (error, info) => {
             if (error) {
-                console.log(error)
-                return ({ message: "error", payload: error })
+                return ({ status: 'Ocurrio un error al intentar enviar el email', message: "error", payload: error })
             }
-            console.log('Mensaje enviado: $s', info.messageId)
-            return ({ message: 'Success', payload: info })
+            return ({ status: 'Success', message: 'Mensaje Enviado: $s', info })
         })
     } catch (error) {
-        console.error(error);
-        return ({ error: error, message: "No se pudo enviar el email desde:" + config.gmailAccount });
+        return ({ status: 'error', message: "No se pudo enviar el email desde:" + config.gmailAccount });
     }
 }

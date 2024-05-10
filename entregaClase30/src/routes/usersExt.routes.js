@@ -1,5 +1,5 @@
 import CustomRouter from './customs.routes.js';
-import { userLoginController, registerUserController, userById, profileById, profileEdit } from '../controllers/users.controllers.js'
+import { userLoginController, registerUserController, CuserById, profileById, profileEdit } from '../controllers/users.controllers.js'
 
 export class UsersExtRouter extends CustomRouter {
 
@@ -12,10 +12,11 @@ export class UsersExtRouter extends CustomRouter {
                 res.status(401).json({ isAuthenticated: false });
             }
         });
+
         this.post('/login', ['PUBLIC'], async (req, res) => {
-            const { email, password } = req.body
-            const login = await userLoginController(email, password, res);
-            
+            const login = await userLoginController(req, res);
+            login.status === 'error' ? res.sendClientError(login.message) : res.sendSuccess(login)
+
         });
 
         this.post('/logout', ['PUBLIC'], async (req, res) => {
@@ -24,49 +25,28 @@ export class UsersExtRouter extends CustomRouter {
         });
 
 
-        this.get('/:id', ["PUBLIC"], async (req, res) => {
-            const { id } = req.params
-            const result = await userById(id)
-            console.log('Result: ', result)
-            if (result.error) {
-                res.sendClientError()
-            }
-            res.sendSuccess(result)
-        })
 
         this.post('/register', ['PUBLIC'], async (req, res) => {
-            console.log(req.body);
-            try {
-                const result = await registerUserController(req)
-                if (result.status === "error") {
-                    res.sendClientError({ message: "El usuario ya existe" })
-                }
-
-                res.sendSuccess({ message: "Usuario Creado con éxito", results: result })
-            } catch (error) {
-                return error
-            }
-
+            const result = await registerUserController(req, res)
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
         })
 
-        this.get('/profile/:userId', ['PUBLIC'], async (req, res) => {
-            try {
-                const user = await profileById(req, res)
-                res.sendSuccess({ message: "Datos de Perfil de usuario", results: user })
-            } catch (error) {
-                res.sendClientError({ message: "Error obteniendo los datos del usuario" })
-            }
+        this.get('/profile', ['USER'], async (req, res) => {
+            const user = await profileById(req, res)
+            user.status === 'error' ? res.sendClientError(user.message) : res.sendSuccess(user)
+
         })
 
         this.put('/profile/edit/:userId', ['USER'], async (req, res) => {
-            try {
-                const user = await profileEdit(req, res)
-                res.sendSuccess({ message: "Datos actualizados correctamente", user })
-            } catch (error) {
-                console.log(error)
-                res.sendClientError({ message: "Error al actualizar los datos", error })
+            const user = await profileEdit(req, res)
+            user.status === 'error' ? res.sendClientError(user.message) : res.sendSuccess(user)
 
-            }
+        })
+
+
+        this.get('/:id?', ["USER"], async (req, res) => {
+            const result = await CuserById(req, res)
+            result.status === 'error' ? res.sendClientError(result.message) : res.sendSuccess(result)
 
         })
 

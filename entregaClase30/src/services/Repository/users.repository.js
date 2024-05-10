@@ -11,8 +11,8 @@ export default class UsersRepository {
         return this.dao.userSave(user)
     }
 
-    userById = async (id) => {
-        return this.dao.userById(id)
+    userById = async (_id) => {
+        return this.dao.userById(_id)
     }
 
     userByEmail = async (email) => {

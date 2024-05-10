@@ -20,8 +20,11 @@ const userSchema = new mongoose.Schema({
     email: stringTypeSchemaUniqueRequired,
     password: stringTypeSchemaNonUniqueRequired,
     role: String,
-
-    addresses: { 
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'cart'
+    },
+    addresses: {
         addressId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'address',
