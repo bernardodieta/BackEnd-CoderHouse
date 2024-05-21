@@ -27,12 +27,12 @@ http://localhost:8080/api/users/
 Agregando el id en la ruta te devuelve el usuario.
 
 ### GetProfile
-http://localhost:8080/api/users/profile/662c27e92845f4e43b13b3ec
-id de ususario como parametro
+http://localhost:8080/api/users/profile/
+El id lo toma directo del req.user una vez estando logeado
 
 ### UserUpdate
 http://localhost:8080/api/users/profile/edit/662c27e92845f4e43b13b3ec
-id como parametro y en el body le enviamos un objeto userUpdate que contiene los datos a actualizar, ejemplo:
+El id lo toma directo del req.user una vez estando logeado y en el body le enviamos un objeto userUpdate que contiene los datos a actualizar, ejemplo:
 {
     "userUpdate": {
         "first_name": "Bernardos",
@@ -103,12 +103,10 @@ Le envio el productId por params y por body lo que quiero actualizar
 
 ###### PARA AGERGAR PRODCUCTOS AL CARRITO
 
-http://localhost:8080/api/cart/66213dc25b15cdaf1e8aae0e/add
-aca lo que hago es a http://localhost:8080/api/cart/ le paso el id del usuario porque lo tengo para que cada usuario tenga su propio carrito, y luego la ruta /add para llamar a esa ruta.
-ejemplo de uso 
 
-http://localhost:8080/api/cart/66213dc25b15cdaf1e8aae0e/add
 
+http://localhost:8080/api/cart/add
+El id lo toma directo del req.user una vez estando logeado
 {
     "productId": "6622b07676d7173d20a2635a",
     "quantity": 4
@@ -118,14 +116,14 @@ y eso agrega ese producto y esa cantidad al carrito de ese ususario que pase en 
 
 ###### PARA TRAER UN CARRITO DE UN USUARIO CON TODOS SUS PRODUCTOS LISTADOS
 
-http://localhost:8080/api/cart/:id
-
+http://localhost:8080/api/cart/
+El id lo toma directo del req.user una vez estando logeado
 
 ###### PARA BORRAR UN PRODUCTO O UNA CANTIDAD DE ESE PRODUCTO DEL CARRITO
 
 http://localhost:8080/api/cart/USERID/PRODUCTID/QUANTITY
-http://localhost:8080/api/cart/66213dc25b15cdaf1e8aae0e/6622b07676d7173d20a2635a/2
-
+http://localhost:8080/api/cart/6622b07676d7173d20a2635a/2
+El id lo toma directo del req.user una vez estando logeado
 
 ### PARA REALIZAR LA COMPRA
 
