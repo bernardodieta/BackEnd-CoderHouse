@@ -1,4 +1,6 @@
 Consigna de desafío
+El archivo Entrega Clase 37.json que esta en la raiz del proyecto es la exportacion de Postman
+
 
 ENDPOINT para pedir el reset de password:
 http://localhost:8080/api/users/request-password-reset
