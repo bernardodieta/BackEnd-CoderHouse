@@ -1,27 +1,27 @@
-const strUniqueReq = {
+export const strUniqueReq = {
     type: String,
     unique: true,
     required: true
 };
 
-const strReq = {
+export const strReq = {
     type: String,
     required: true
 };
 
-const str = {
+export const str = {
     type: String
 };
 
-const num = {
+export const num = {
     type: Number,
 };
-const numReq = {
+export const numReq = {
     type: Number,
     required: true
 };
 
-const numUniqReq = {
+export const numUniqReq = {
     type: Number,
     unique: true,
     required: true

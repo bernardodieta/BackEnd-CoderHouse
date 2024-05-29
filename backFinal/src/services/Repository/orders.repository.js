@@ -1,24 +1,24 @@
-export default class OrdersRepository{
-    constructor(dao){
+export default class OrdersRepository {
+    constructor(dao) {
         this.dao = dao
     }
 
-    saveOrder = async (orderData) => {
-        return this.dao.saveOrder(orderData)
+    saveOrder = async (orderData, logger) => {
+        return this.dao.saveOrder(orderData, logger)
     }
 
-    getOrdersByCustomerId = async (customerId) => {
-        return this.dao.getOrdersByCustomerId(customerId)
+    getOrdersByCustomerId = async (customerId, logger) => {
+        return this.dao.getOrdersByCustomerId(customerId, logger)
     }
 
-    getAllOrderByuserId = async (userId) => {
-        return this.dao.getAllOrderByuserId(userId)
+    getAllOrderByuserId = async (userId, logger) => {
+        return this.dao.getAllOrderByuserId(userId, logger)
     }
-    getOrderById = async (orderId) => {
-        return this.dao.getOrderById(orderId)
+    getOrderById = async (orderId, logger) => {
+        return this.dao.getOrderById(orderId, logger)
     }
 
-    updateOrderStatus = async (orderId, newStatus) => {
-        return this.dao.updateOrderStatus(orderId, newStatus)
+    updateOrderStatus = async (orderId, newStatus, logger) => {
+        return this.dao.updateOrderStatus(orderId, newStatus, logger)
     }
 }

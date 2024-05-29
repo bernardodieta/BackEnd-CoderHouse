@@ -1,3 +1,24 @@
+Consigna de desafío
+
+ENDPOINT para pedir el reset de password:
+http://localhost:8080/api/users/request-password-reset
+
+se le envia un objeto con el email:
+{
+    "email":"bernardodieta@gmail.com"
+}
+te devuelve una url, esta url la ingresas en el endpoint para cambiar la password y le envias la password nueva como objeto y la cambia.
+
+
+EJEMPLO ENDPOINT para cambiar la password
+
+http://localhost:8080/api/users/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJlcm5hcmRvZGlldGFAZ21haWwuY29tIiwiaWF0IjoxNzE3MDAzOTI5LCJleHAiOjE3MTcwMDc1Mjl9.FqoR9-_Qm81QAFHRXtxwhVZbS5zAt5ys13UZXpX5T_Q
+
+se le envia 
+{
+    "newPassword": "11098666"
+}
+
 
 
 ENDPOINTS PROBADOS:

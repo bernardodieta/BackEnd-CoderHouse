@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import mongoosePaginate from 'mongoose-paginate-v2';
 
 const productCollection = "products";
@@ -22,9 +22,14 @@ const productSchema = new mongoose.Schema({
     pcode: stringTypeSchemaUniqueRequired,
     category: String,
     stars: Number,
-    questions:String,    
+    questions: [{
+        type: Schema.Types.ObjectId,
+        ref: 'questionProducts'
+    }],
     fecharegistro: String,
     img: Array,
+    owner:String,
+   
 }, { timestamps: true });
 
 productSchema.plugin(mongoosePaginate);

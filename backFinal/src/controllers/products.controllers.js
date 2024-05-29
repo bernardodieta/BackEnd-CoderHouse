@@ -6,140 +6,181 @@ import { ConflictError, FavoriteError, NotFoundError, ServerError } from '../uti
 import { response } from "../utils/response.js";
 
 
-const getListProducts = async (req, res) => {
-    const { limit = 15, page = 1, sort, category, stock, startDate, endDate } = req.query;
-    let filter = {};
-    let sortOption = {};
-    if (category) {
-        filter.category = category;
-    }
-    if (stock) {
-        filter.stock = parseInt(stock);
-    }
-    if (startDate && endDate) {
-        filter.createdAt = {
-            $gte: new Date(startDate),
-            $lte: new Date(endDate)
-        };
-    } else if (startDate) {
-        filter.createdAt = { $gte: new Date(startDate) };
-    } else if (endDate) {
-        filter.createdAt = { $lte: new Date(endDate) };
-    }
-
-    if (sort === 'asc' || sort === 'desc') {
-        sortOption.price = sort === 'asc' ? 1 : -1;
-    }
-
-    const options = {
-        limit: parseInt(limit),
-        page: parseInt(page),
-        sort: sortOption,
-        lean: true
-    };
-
-    const products = await productService.getAllProducts(filter, options);
-    const totalPages = products.totalPages;
-    const hasNextPage = products.hasNextPage;
-    const hasPrevPage = products.hasPrevPage;
-    const prevPage = hasPrevPage ? parseInt(page) - 1 : null;
-    const nextPage = hasNextPage ? parseInt(page) + 1 : null;
-    const prevLink = hasPrevPage ? `/?page=${prevPage}&limit=${limit}&sort=${sort}&category=${category}&stock=${stock}` : null;
-    const nextLink = hasNextPage ? `/?page=${nextPage}&limit=${limit}&sort=${sort}&category=${category}&stock=${stock}` : null;
-
-    const result = {
-        data: products.docs,
-        totalPages,
-        prevPage,
-        nextPage,
-        page: parseInt(page),
-        hasPrevPage,
-        hasNextPage,
-        prevLink,
-        nextLink
-    };
-
-    if (products) {
-        response(res, 200, result)
-    } else {
-        req.logger.warning(`${req.method} en ${req.url} - Error:'No se encontrar productos para mostrar.' - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-        throw new NotFoundError('No se encontrar productos para mostrar.')
-    }
-
-}
-
-const toggleFavorite = async (req, res) => {
-    const { _id } = req.user
-    const { productId } = req.params;
-    const user = await userService.userById(_id);
-    const isFavorite = user.favProducts.some(product => product.productId.toString() === productId);
-    const filter = { _id: _id };
-    let update;
-
-    if (isFavorite) {
-        update = {
-            $pull: {
-                "favProducts": { productId: productId }
-            }
-        };
-    } else {
-        update = {
-            $addToSet: {
-                "favProducts": { productId: productId }
-            }
-        };
-    }
-    const result = await userService.updateInfo(filter, update);
-    result.password = ''
-    if (result) {
-        response(res, 200, result)
-    } else {
-        req.logger.error(`${req.method} en ${req.url} - Error:'No se pudo agregar el producto a favoritos' - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-        throw new FavoriteError('No se pudo agregar el producto a favoritos')
-    }
-};
-
-const saveProductController = async (req, res) => {
+const getListProducts = async (req, res, next) => {
     try {
-        let img = []
-        const { title, description, stock, price, pcode, category } = req.body;
-        const exists = await productService.getProductByPcode(pcode);
-        if (exists) {
-            req.logger.warning(`${req.method} en ${req.url} - Error: Ya existe un producto con ese Product code - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-            throw new ConflictError('Ya existe un producto con ese Product code')
+        const { limit = 60, page = 1, sort, category, stock, startDate, endDate } = req.query;
+        let filter = {};
+        let sortOption = {};
+        if (category) {
+            filter.category = category;
         }
-        img = req.files.map(file => ({ path: file.path }));
-        const product = new Product(title, description, stock, price, pcode, category, moment().format(), img);
-        const newProduct = await productService.saveProduct(product);
-        response(res, 201, newProduct)
+        if (stock) {
+            filter.stock = parseInt(stock);
+        }
+        if (startDate && endDate) {
+            filter.createdAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
+        } else if (startDate) {
+            filter.createdAt = { $gte: new Date(startDate) };
+        } else if (endDate) {
+            filter.createdAt = { $lte: new Date(endDate) };
+        }
+
+        if (sort === 'asc' || sort === 'desc') {
+            sortOption.price = sort === 'asc' ? 1 : -1;
+        }
+        const options = {
+            limit: parseInt(limit),
+            page: parseInt(page),
+            sort: sortOption,
+            lean: true
+        };
+        const products = await productService.getAllProducts(filter, options,req.logger);
+        const totalPages = products.totalPages;
+        const hasNextPage = products.hasNextPage;
+        const hasPrevPage = products.hasPrevPage;
+        const prevPage = hasPrevPage ? parseInt(page) - 1 : null;
+        const nextPage = hasNextPage ? parseInt(page) + 1 : null;
+        const prevLink = hasPrevPage ? `/?page=${prevPage}&limit=${limit}&sort=${sort}&category=${category}&stock=${stock}` : null;
+        const nextLink = hasNextPage ? `/?page=${nextPage}&limit=${limit}&sort=${sort}&category=${category}&stock=${stock}` : null;
+
+        const result = {
+            data: products.docs,
+            totalPages,
+            prevPage,
+            nextPage,
+            page: parseInt(page),
+            hasPrevPage,
+            hasNextPage,
+            prevLink,
+            nextLink
+        };
+        if (products.docs.length > 0) {
+            return response(res, 200, result);
+        } else {
+            throw new NotFoundError('No se encontraron productos para mostrar.');
+        }
     } catch (error) {
-        req.logger.error(`${req.method} en ${req.url} - Error: ${error} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-        throw new ServerError('Ocurrio un error al guardar el producto')
+        next(error);
     }
 };
 
-const getProductById = async (req, res) => {
-    const { id } = req.params
-    console.log(id)
-    const product = await productService.getProductById(id)
-    if (!product) {
-        req.logger.warning(`${req.method} en ${req.url} - Error: No existe un producto con ese id - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-        throw new NotFoundError('No existe un producto con ese id')
+const toggleFavorite = async (req, res, next) => {
+    try {
+        const { _id } = req.user
+        const { productId } = req.params;
+        const user = await userService.userById(_id, req.logger);
+        const isFavorite = user.favProducts.some(product => product.productId.toString() === productId);
+        const filter = { _id: _id };
+        let update;
+
+        if (isFavorite) {
+            update = {
+                $pull: {
+                    "favProducts": { productId: productId }
+                }
+            };
+        } else {
+            update = {
+                $addToSet: {
+                    "favProducts": { productId: productId }
+                }
+            };
+        }
+        const result = await userService.updateInfo(filter, update, req.logger);
+        result.password = ''
+        if (result) {
+            return response(res, 200, result)
+        } else {
+            req.logger.error(`${req.method} en ${req.url} - Error:'No se pudo agregar el producto a favoritos' - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
+            throw new FavoriteError('No se pudo agregar el producto a favoritos')
+        }
+    } catch (error) {
+        next(error)
     }
-    response(res, 201, product)
+};
+
+const saveProductController = async (req, res, next) => {
+    try {
+        let img = [];
+        const { title, description, stock, price, pcode, category } = req.body;
+        const exists = await productService.getProductByPcode(pcode, req.logger);
+        if (exists) {
+            req.logger.warning(`${req.method} en ${req.url} - Error: Ya existe un producto con ese Product code - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`);
+            throw new ConflictError('Ya existe un producto con ese Product code');
+        }
+
+        if (req.files && req.files.length > 0) {
+            img = req.files.map(file => ({ path: file.path }));
+            console.log('img:', img);
+        }
+        let owner = ''
+        if (req.user.role === 'premium') {
+            owner = req.user.email
+        } else {
+            owner = 'admin'
+        }
+        const product = new Product(title, description, stock, price, pcode, category, moment().format(), img, owner);
+
+        const newProduct = await productService.saveProduct(product, req.logger);
+        return response(res, 201, newProduct);
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+};
+
+const getProductById = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        console.log(id)
+        const product = await productService.getProductById(id, req.logger)
+        if (!product) {
+            req.logger.warning(`${req.method} en ${req.url} - Error: No existe un producto con ese id - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
+            throw new NotFoundError('No existe un producto con ese id')
+        }
+        return response(res, 201, product)
+    } catch (error) {
+        next(error)
+    }
 }
 
-const updateProductById = async (req, res) => {
-    const { productId } = req.params
-    const { product } = req.body
-    const prod = await productService.updateProduct(productId, product)
-    if (result) {
-        response(res, 201, prod)
-    } else {
-        req.logger.error(`${req.method} en ${req.url} - Error: ${error} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-        throw new ServerError('No se pudo actualizar el producto.')
+const updateProductById = async (req, res, next) => {
+    try {
+        const { productId } = req.params
+        const { product } = req.body
+        const prod = await productService.updateProduct(productId, product, req.logger)
+        if (prod) {
+            return response(res, 201, prod)
+        } else {
+            req.logger.error(`${req.method} en ${req.url} - Error: 'No se pudo actualizar el producto.' - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
+            throw new ServerError('No se pudo actualizar el producto.')
+        }
+    } catch (error) {
+        next(error)
     }
 }
+
+const deletProductById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const product = await productService.getProductById(id, req.logger);
+        if (!product) {
+            req.logger.warning(`${req.method} en ${req.url} - Error: No existe un producto con ese id - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`);
+            throw new NotFoundError('No existe un producto con ese id');
+        }
+        if (req.user.role === 'admin' || (req.user.role === 'premium' && product.owner === req.user.email)) {
+            const deletProduct = await productService.delProduct(id, req.logger);
+            return response(res, 201, deletProduct);
+        } else {
+            return response(res, 403, { error: 'El producto no te pertenece o no tienes privilegios para poder borrarlo.' }, false);
+        }
+    } catch (error) {
+        next(error);
+    }
+};
 
 
 const TuninggetListProducts = catchedAsync(getListProducts);
@@ -147,12 +188,14 @@ const TuningrtoggleFavorite = catchedAsync(toggleFavorite);
 const TuningsaveProductController = catchedAsync(saveProductController);
 const TuninggetProductById = catchedAsync(getProductById);
 const TuningupdateProductById = catchedAsync(updateProductById);
+const TuningdeletProductById = catchedAsync(deletProductById)
 
 export {
     TuninggetListProducts as getListProducts,
     TuningrtoggleFavorite as toggleFavorite,
     TuningsaveProductController as saveProductController,
     TuninggetProductById as getProductById,
-    TuningupdateProductById as updateProductById
+    TuningupdateProductById as updateProductById,
+    TuningdeletProductById as deletProductById
 };
 

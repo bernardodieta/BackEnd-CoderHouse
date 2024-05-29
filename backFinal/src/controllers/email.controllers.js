@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import config from '../config/config.js'
 import __dirname from '../utils.js'
-import { ClientError, SendMailError } from '../utils/errors.js';
+import { SendMailError } from '../utils/errors.js';
 import { catchedAsync } from '../utils/catchedAsync.js';
 import { response } from '../utils/response.js'
 
@@ -15,8 +15,9 @@ const transporter = nodemailer.createTransport({
 })
 transporter.verify(function (error, success) {
     if (error) {
-        req.logger.error(`${req.method} en ${req.url} - Error: 'Error al intentar conectar al servicio de emails.'${error} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-        throw new SendMailError('Error al intentar conectar al servicio de emails.')
+        console.log('Server listo para enviar mensajes.')
+
+        //throw new SendMailError('Error al intentar conectar al servicio de emails.')
     } else {
         console.log('Server listo para enviar mensajes.')
     }
@@ -45,14 +46,13 @@ const sendEmailConfirm = (newOrder, res) => {
     try {
         transporter.sendMail(mailConfirmOptions, (error, info) => {
             if (error) {
-                req.logger.error(`${req.method} en ${req.url} - Error: 'Error al intentar enviar el email con la orden.'${error} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-
-                throw new SendMailError('Error al intentar enviar el email con la orden.')
+                console.log('Error al intentar enviar el email con la orden.')
+                //throw new SendMailError('Error al intentar enviar el email con la orden.')
             }
             response(res, 200, info)
         })
     } catch (error) {
-        req.logger.error(`${req.method} en ${req.url} - Error: 'Error en el servicio de envio de emails.'${error} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
+
         throw new SendMailError(error)
     }
 }

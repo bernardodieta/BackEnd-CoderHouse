@@ -3,22 +3,22 @@ export default class UsersRepository {
         this.dao = dao;
     }
 
-    userList = async () => {
-        return this.dao.userList()
+    userList = async (logger) => {
+        return this.dao.userList(logger)
     }
 
-    userSave = async (user) => {
-        return this.dao.userSave(user)
+    userSave = async (user, logger) => {
+        return this.dao.userSave(user, logger)
     }
 
-    userById = async (_id) => {
-        return this.dao.userById(_id)
+    userById = async (_id, logger) => {
+        return this.dao.userById(_id, logger)
     }
 
-    userByEmail = async (email) => {
-        return this.dao.userByEmail(email)
+    userByEmail = async (email, logger,next) => {
+        return this.dao.userByEmail(email, logger,next)
     }
-    updateInfo = async (userId, userUpdate) => {
-        return this.dao.updateInfo(userId, userUpdate)
+    updateInfo = async (userId, userUpdate, logger) => {
+        return this.dao.updateInfo(userId, userUpdate, logger)
     }
 }

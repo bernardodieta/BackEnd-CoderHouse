@@ -2,27 +2,31 @@ export default class ProductRepository {
     constructor(dao) {
         this.dao = dao
     }
-    getAllProducts = async (filter, options) => {
-        return this.dao.getAllProducts(filter, options)
+    getAllProducts = async (filter, options, logger) => {
+        return this.dao.getAllProducts(filter, options, logger)
     }
 
-    getProductByPcode = async (pcode) => {
-        return this.dao.getProductByPcode(pcode)
+    getProductByPcode = async (pcode, logger) => {
+        return this.dao.getProductByPcode(pcode, logger)
     }
 
-    saveProduct = async (product) => {
-        return this.dao.saveProduct(product)
+    saveProduct = async (product, logger) => {
+        return this.dao.saveProduct(product, logger)
     }
-    getProductById = async (id) => {
-        return this.dao.getProductById(id)
-    }
-
-    updateProductStock = async (id, newStock) => {
-        return this.dao.updateProductStock(id, newStock)
+    getProductById = async (id, logger) => {
+        return this.dao.getProductById(id, logger)
     }
 
-    updateProduct = async (productId, product) => {
-        return this.dao.updateProduct(productId, product)
+    updateProductStock = async (id, newStock, logger) => {
+        return this.dao.updateProductStock(id, newStock, logger)
+    }
+
+    updateProduct = async (productId, product, logger) => {
+        return this.dao.updateProduct(productId, product, logger)
+    }
+
+    delProduct = async (_id, logger) => {
+        return this.dao.delProduct(_id, logger)
     }
 
 }

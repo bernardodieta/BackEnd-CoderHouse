@@ -3,7 +3,9 @@ import ProductServicesDao from "./dao/mongo/products.services.js";
 import CartServicesDao from "./dao/mongo/carts.services.js";
 import AddressServicesDao from "./dao/mongo/address.services.js";
 import OrderServicesDao from "./dao/mongo/order.services.js";
+import QuestionProductDao from "./dao/mongo/questions.services.js";
 
+import QuestionRepository from "./Repository/questions.repository.js";
 import UsersRepository from "./Repository/users.repository.js";
 import ProductRepository from "./Repository/products.repository.js";
 import CartRepository from "./Repository/carts.repository.js";
@@ -15,7 +17,10 @@ const productDao = new ProductServicesDao()
 const cartDao = new CartServicesDao()
 const orderDao = new OrderServicesDao()
 const adressDao = new AddressServicesDao()
+const questionDao = new QuestionProductDao()
 
+
+export const questionService = new QuestionRepository(questionDao)
 export const userService = new UsersRepository(userDao)
 export const productService = new ProductRepository(productDao)
 export const cartService = new CartRepository(cartDao)

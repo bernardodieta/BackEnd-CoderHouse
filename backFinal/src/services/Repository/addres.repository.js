@@ -2,10 +2,10 @@ export default class AddressRepository{
     constructor(dao){
         this.dao = dao
     }
-    getFullAddress = async (userId) => {
-        return this.dao.getFullAddress(userId)
+    getFullAddress = async (userId,logger) => {
+        return this.dao.getFullAddress(userId,logger)
     }
-    saveAddress = async (addressData) => {
-        return this.dao.saveAddress(addressData)
+    saveAddress = async (addressData,logger) => {
+        return this.dao.saveAddress(addressData,logger)
     }
 }

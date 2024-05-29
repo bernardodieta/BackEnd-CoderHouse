@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const collectionName = 'users';
 
@@ -38,6 +38,10 @@ const userSchema = new mongoose.Schema({
             }
         }
     ],
+    questions: [{
+        type: Schema.Types.ObjectId,
+        ref: 'questionProducts'
+    }],
     fecha_reg: String,
 });
 

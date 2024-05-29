@@ -1,9 +1,7 @@
-export const response = (res, statusCode, payload) => {
+export const response = (res, statusCode, payload, success = true) => {
     res.status(statusCode).json({
-        success: true,
-        error: false,
+        success,
+        error: !success,
         payload
     });
- 
-}
-
+};

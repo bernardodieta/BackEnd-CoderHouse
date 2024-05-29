@@ -53,15 +53,13 @@ const productionLogger = winston.createLogger({
 export const addLogger = (req, res, next) => {
     if (config.enviroment === 'production') {
         req.logger = productionLogger;
-        console.log(req.body)
-        req.logger.warning(`${req.method} en ${req.url} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-        req.logger.error(`${req.method} en ${req.url} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
+        req.logger.warning(`${req.method} en ${req.url} ${JSON.stringify(req.body)}- at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
+        req.logger.error(`${req.method} en ${req.url} ${JSON.stringify(req.body)}- at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
     } else {
         req.logger = developmentLogger;
-        console.log(req.body)
-        req.logger.http(`${req.method} en ${req.url} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-        req.logger.warning(`${req.method} en ${req.url} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
-        req.logger.error(`${req.method} en ${req.url} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
+        req.logger.http(`${req.method} en ${req.url} ${JSON.stringify(req.body)}- at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
+        req.logger.warning(`${req.method} en ${req.url} ${JSON.stringify(req.body)}- at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
+        req.logger.error(`${req.method} en ${req.url} ${JSON.stringify(req.body)}- at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
     }
 
     next()
