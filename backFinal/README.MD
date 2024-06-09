@@ -1,5 +1,12 @@
-Consigna de desafío
-El archivo Entrega Clase 37.json que esta en la raiz del proyecto es la exportacion de Postman
+Agregue swagger a Users, product, y cart pero tuve el problema de que no guarda el token cuando hago login y si no cambio las politicas de acceso de las rutas no se pueden usar muchos de los endpoint con swagger estoy viendo de que manera puedo hacer que funcionen
+con el token, mientras tanto aqui va la entrega, las rutas publicas si se pueden ver en el doc de swagger la ruta para ver la documentacion es:
+
+http://localhost:8080/apidocs
+
+
+
+
+El archivo Entrega Clase 39.json que esta en la raiz del proyecto es la exportacion de Postman
 
 
 ENDPOINT para pedir el reset de password:
