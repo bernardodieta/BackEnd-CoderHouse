@@ -37,7 +37,7 @@ const getListProducts = async (req, res, next) => {
             sort: sortOption,
             lean: true
         };
-        const products = await productService.getAllProducts(filter, options,req.logger);
+        const products = await productService.getAllProducts(filter, options, req.logger);
         const totalPages = products.totalPages;
         const hasNextPage = products.hasNextPage;
         const hasPrevPage = products.hasPrevPage;
@@ -182,7 +182,16 @@ const deletProductById = async (req, res, next) => {
     }
 };
 
+const valorationAdd = async (req, res, next) => {
+    const { _id } = req.user
+    const { productId } = req.params;
+    const { message, star } = req.body;
+    const result = await productService.valAdd(productId, _id, message, star, req.logger)
+    response(res, 201, result)
 
+}
+
+const TuningvalorationAdd = catchedAsync(valorationAdd)
 const TuninggetListProducts = catchedAsync(getListProducts);
 const TuningrtoggleFavorite = catchedAsync(toggleFavorite);
 const TuningsaveProductController = catchedAsync(saveProductController);
@@ -191,6 +200,7 @@ const TuningupdateProductById = catchedAsync(updateProductById);
 const TuningdeletProductById = catchedAsync(deletProductById)
 
 export {
+    TuningvalorationAdd as valorationAdd,
     TuninggetListProducts as getListProducts,
     TuningrtoggleFavorite as toggleFavorite,
     TuningsaveProductController as saveProductController,

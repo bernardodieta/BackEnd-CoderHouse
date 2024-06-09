@@ -38,10 +38,24 @@ const userSchema = new mongoose.Schema({
             }
         }
     ],
-    questions: [{
-        type: Schema.Types.ObjectId,
+    purchasedProducts: [
+        {
+            product: {
+                productId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'products',
+                },
+                status: Boolean,
+            }
+        }
+    ],
+
+    questions: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'questionProducts'
-    }],
+    },
+
+
     fecha_reg: String,
 });
 

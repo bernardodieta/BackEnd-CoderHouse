@@ -1,31 +1,26 @@
 import CustomRouter from './customs.routes.js';
-import { userLoginController, registerUserController, CuserById, profileById, profileEdit, reqPasswordReset, resetPasswordToken } from '../controllers/users.controllers.js'
+import { userLoginController, registerUserController, CuserById, profileById, profileEdit, reqPasswordReset, resetPasswordToken, verifyAuth, logOut } from '../controllers/users.controllers.js'
 import { fakeusers } from '../controllers/fakerUsers.js';
-import { response } from '../utils/response.js';
+import { validateUserRegisterData } from '../services/middlewares/validateDataUsers.js';
+
 export class UsersExtRouter extends CustomRouter {
 
     init() {
-        this.get('/auth/verify', ['PUBLIC'], async (req, res) => {
-            req.user
-                ? response(res, 200, { isAuthenticated: true, user: req.user })
-                : response(res, 200, { isAuthenticated: false })
-        });
-        this.post('/logout', ['PUBLIC'], async (req, res) => {
-            res.clearCookie('jwtCookieToken');
-            response(res, 200, 'Logout confirmado.')
-        });
+        this.get('/auth/verify', ['PUBLIC'], verifyAuth);
 
-        this.get('/fakeruser', ['PUBLIC'], fakeusers)
+        this.post('/logout', ['PUBLIC'], logOut);
+
+       // this.get('/fakeruser', ['PUBLIC'], fakeusers)
 
         this.post('/login', ['PUBLIC'], userLoginController);
 
-        this.post('/register', ['PUBLIC'], registerUserController)
+        this.post('/register', ['PUBLIC'], validateUserRegisterData, registerUserController)
 
-        this.get('/profile', ["USER", "PREMIUM",'ADMIN'], profileById)
+        this.get('/profile', ["USER", "PREMIUM", 'ADMIN'], profileById)
 
-        this.put('/profile/edit', ["USER", "PREMIUM",'ADMIN'], profileEdit)
+        this.put('/profile/edit', ["USER", "PREMIUM", 'ADMIN'], profileEdit)
 
-        this.get('/:id?', ["USER", "PREMIUM",'ADMIN'], CuserById)
+        this.get('/:id?', ["USER", "PREMIUM", 'ADMIN'], CuserById)
 
         this.post('/request-password-reset', ['PUBLIC'], reqPasswordReset)
 

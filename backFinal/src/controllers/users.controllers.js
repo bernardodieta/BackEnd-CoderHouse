@@ -2,22 +2,26 @@ import { userService, cartService } from '../services/services.js'
 import { generateJWToken, isValidPassword } from "../utils.js";
 import { UsersClass } from '../services/dto/usersClass.js'
 import { response } from '../utils/response.js';
-import { AuthenticationError, ConflictError, NotFoundError, ServerError } from '../utils/errors.js';
+import { AuthenticationError, ConflictError, NotFoundError, ServerError, ValidationError } from '../utils/errors.js';
 import { catchedAsync } from '../utils/catchedAsync.js';
 import config from '../config/config.js'
 import nodemailer from 'nodemailer';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import UserResponseDto from '../services/dto/output/userResponseDto.js';
+import UserResponseLoginDto from '../services/dto/output/userResponseLoginDto.js';
+import UserCreateDto from '../services/dto/input/userCreateDto.js';
 
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    port: 587,
-    auth: {
-        user: config.gmailAccount,
-        pass: config.gmailAppPassword
-    }
-});
+const logOut = (req, res) => {
+    res.clearCookie('jwtCookieToken');
+    response(res, 200, 'Logout confirmado.')
+}
+const verifyAuth = (req, res) => {
+    req.user
+        ? response(res, 200, { isAuthenticated: true, user: req.user })
+        : response(res, 200, { isAuthenticated: false })
+}
 
 const userListController = async (req, res, next) => {
     try {
@@ -35,15 +39,8 @@ const profileById = async (req, res, next) => {
     try {
         const { _id } = req.user;
         const userProfile = await userService.userById(_id, req.logger);
-        const profile = {
-            name: userProfile.name,
-            last_name: userProfile.last_name,
-            email: userProfile.email,
-            age: userProfile.age,
-            role: userProfile.role,
-            favProducts: userProfile.favProducts
-        };
-        response(res, 200, profile);
+        const userDto = new UserResponseDto(userProfile)
+        response(res, 200, userDto);
     } catch (error) {
         next(error);
     }
@@ -53,7 +50,8 @@ const CuserById = async (req, res, next) => {
     try {
         const { _id } = req.user;
         const result = await userService.userById(_id);
-        response(res, 200, result);
+        const userDto = new UserResponseDto(result)
+        response(res, 200, userDto);
     } catch (error) {
         next(error);
     }
@@ -62,6 +60,11 @@ const CuserById = async (req, res, next) => {
 const userLoginController = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!email || !emailRegex.test(email)) {
+            throw new ValidationError('Debe ingresar un email correcto.');
+        }
         const user = await userService.userByEmail(email, req.logger);
         if (!isValidPassword(user, password)) {
             throw new AuthenticationError('El usuario o la contraseña no coinciden.');
@@ -81,15 +84,8 @@ const userLoginController = async (req, res, next) => {
             secure: true,
             sameSite: 'None'
         });
-        user.password = '';
-
-        let logindata = {
-            token: access_token,
-            userId: user._id,
-            usercartId: cart.user,
-            user
-        };
-        response(res, 200, logindata);
+        const userDto = new UserResponseLoginDto(user)
+        response(res, 200, userDto, 'Login Success');
     } catch (error) {
         next(error)
     }
@@ -106,11 +102,12 @@ const registerUserController = async (req, res, next) => {
         if (!role || (role !== 'admin' && role !== 'premium')) {
             userRole = 'user';
         }
-        const newUser = new UsersClass(first_name, last_name, age, email, password, userRole);
+        const newUser = new UserCreateDto(first_name, last_name, age, email, password, userRole);
         const user = await userService.userSave(newUser, req.logger);
         const newCart = await cartService.createEmptyCart(user._id, req.logger);
         await userService.updateInfo(user._id, { cart: newCart._id });
-        response(res, 201, user);
+        const userDto = new UserResponseDto(user)
+        response(res, 201, userDto, 'Usuario registrado correctamente.');
     } catch (error) {
         next(error);
     }
@@ -121,7 +118,8 @@ const profileEdit = async (req, res, next) => {
         const { _id } = req.user;
         const { userUpdate } = req.body;
         const user = await userService.updateInfo(_id, userUpdate, req.logger);
-        response(res, 201, user);
+        const userDto = new UserResponseDto(user)
+        response(res, 201, userDto, 'Perfil editado correctamente.');
     } catch (error) {
         next(error);
     }
@@ -129,14 +127,14 @@ const profileEdit = async (req, res, next) => {
 
 const reqPasswordReset = async (req, res, next) => {
     try {
-        const { email } = req.body;   
+        const { email } = req.body;
         const token = jwt.sign({ email }, 'resetpassword123456', { expiresIn: '1h' });
         const resetLink = `http://localhost:8080/api/users/reset-password/${token}`;
         const mailOptions = {
             from: 'bernardodieta@gmail.com',
             to: email,
-            subject: 'Password Reset',
-            html: `<a href="${resetLink}">Reset Password</a>`,
+            subject: 'Reinicio de contraseña',
+            html: `<a href="${resetLink}">Nueva Contraseña</a>`,
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -158,7 +156,7 @@ const resetPasswordToken = async (req, res, next) => {
 
         const decoded = jwt.verify(token, 'resetpassword123456');
         const user = await userService.userByEmail(decoded.email, req.logger);
-   
+
         if (bcrypt.compareSync(newPassword, user.password)) {
             throw new ConflictError('La nueva password no puede ser igual a la anterior.');
         }
@@ -173,6 +171,14 @@ const resetPasswordToken = async (req, res, next) => {
     }
 };
 
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    auth: {
+        user: config.gmailAccount,
+        pass: config.gmailAppPassword
+    }
+});
 
 const TuninguserListController = catchedAsync(userListController)
 const TuningprofileById = catchedAsync(profileById)
@@ -191,5 +197,7 @@ export {
     TuningregisterUserController as registerUserController,
     TuningprofileEdit as profileEdit,
     TuningreqPasswordReset as reqPasswordReset,
-    TuningresetPasswordToken as resetPasswordToken
+    TuningresetPasswordToken as resetPasswordToken,
+    verifyAuth,
+    logOut
 }

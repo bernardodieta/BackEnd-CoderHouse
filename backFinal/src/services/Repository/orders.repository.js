@@ -3,12 +3,12 @@ export default class OrdersRepository {
         this.dao = dao
     }
 
-    saveOrder = async (orderData, logger) => {
-        return this.dao.saveOrder(orderData, logger)
+    saveOrder = async (orderData, logger, next) => {
+        return this.dao.saveOrder(orderData, logger, next)
     }
 
-    getOrdersByCustomerId = async (customerId, logger) => {
-        return this.dao.getOrdersByCustomerId(customerId, logger)
+    getOrdersByCustomerId = async (customerId, logger, next) => {
+        return this.dao.getOrdersByCustomerId(customerId, logger, next)
     }
 
     getAllOrderByuserId = async (userId, logger) => {

@@ -28,5 +28,8 @@ export default class ProductRepository {
     delProduct = async (_id, logger) => {
         return this.dao.delProduct(_id, logger)
     }
+    valAdd = async (productId, _id, message, star, logger) => {
+        return this.dao.valAdd(productId, _id, message, star, logger)
+    }
 
 }

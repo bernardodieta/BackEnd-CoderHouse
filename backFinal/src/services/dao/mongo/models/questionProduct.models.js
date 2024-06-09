@@ -1,31 +1,26 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const Schema = mongoose.Schema;
-
-const questionProductCollection = "questionProducts";
-
-const questionProductSchema = new mongoose.Schema({
+const questionSchema = new mongoose.Schema({
     content: {
         type: String,
-        require: true
+        required: true
     },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'users',
-        require: true
-    },
-    product: {
-        type: Schema.Types.ObjectId,
-        ref: 'products',
-        require: true
 
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
+        required: true
     },
-    createAt: {
-        type: Date,
-        default: Date.now
+
+    product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'products',
+        required: true
     }
 
-})
 
-const questionModel = mongoose.model(questionProductCollection, questionProductSchema)
+}, { timestamps: true });
+
+const questionModel = mongoose.model('questionProducts', questionSchema);
+
 export default questionModel;

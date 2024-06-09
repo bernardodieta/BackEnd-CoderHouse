@@ -32,7 +32,7 @@ const sendEmailConfirm = (newOrder, res) => {
             <div><h2>Su compra se realizo con éxito</h2></div>
             <div>${JSON.stringify(newOrder.email)}</div>
             <div>Total Pagado: $${JSON.stringify(newOrder.total)}</div>
-            <img src=${JSON.stringify(newOrder.products[0].img)}>        
+                   
             `
     const { email } = newOrder
     const mailConfirmOptions = {
@@ -49,10 +49,10 @@ const sendEmailConfirm = (newOrder, res) => {
                 console.log('Error al intentar enviar el email con la orden.')
                 //throw new SendMailError('Error al intentar enviar el email con la orden.')
             }
-            response(res, 200, info)
+            return info
         })
     } catch (error) {
-
+        console.log(error)
         throw new SendMailError(error)
     }
 }

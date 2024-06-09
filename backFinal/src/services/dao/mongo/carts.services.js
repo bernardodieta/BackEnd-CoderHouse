@@ -94,7 +94,7 @@ export default class CartServicesDao {
     }
 
     getCartByUserId = async (userId, logger) => {
-        try {
+        // try {
             console.log("Usuario que me llego de:", userId);
             let cart = await cartModel.findOne({ user: userId }).populate('items.product');
             if (!cart) {
@@ -102,9 +102,9 @@ export default class CartServicesDao {
                 throw new NotFoundError('No se encuentra un carrito asignado a este usuario.')
             }
             return cart;
-        } catch (error) {
-            next(error)
-        }
+        // } catch (error) {
+        //     next(error)
+        // }
     }
 
 }
